@@ -9,20 +9,27 @@ const Home = () => {
   const [questionWord, setQuestionWord] = useState(null);
 
   // To keep track of which words to show
-  const [wordIndexesToShow, setWordIndexesToShow] = useState([]);
+  const [wordIndexesToShow, setWordIndexesToShow] = useState([0]);
 
   // To keep track of things loading in our application
   const [isLoading, setIsLoading] = useState(true);
+
+  // Function that handles guesses (when user clicks a word)
+  const handleGuess = (e) => {
+    console.log("WORD ", questionWord?.word);
+    const indexes = questionWord?.word.split("").reduce((acc, word, index) => {
+      if (index === 0) return acc;
+      if (e.target.value === word) acc.push(index);
+      return acc;
+    }, []);
+
+    setWordIndexesToShow([...wordIndexesToShow, ...indexes]);
+  };
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * hangmanWords.length);
     const randomWordObject = hangmanWords[randomIndex];
     setQuestionWord(randomWordObject);
-    setWordIndexesToShow([
-      ...wordIndexesToShow,
-      0,
-      Math.floor(randomWordObject?.word?.split("").length / 2),
-    ]);
     setIsLoading(false);
   }, []);
 
@@ -76,7 +83,7 @@ const Home = () => {
               <button
                 className="bg-blue-400 min-h-12 min-w-12 flex justify-center items-center text-white cursor-pointer hover:scale-105 rounded-md"
                 value={alphabet}
-                onClick={(e) => console.log(e.target.value)}
+                onClick={handleGuess}
               >
                 {alphabet.toUpperCase()}
               </button>
