@@ -94,7 +94,7 @@ const Home = () => {
       <div className="bg-white container mx-auto rounded-xl flex items-center center flex-wrap flex-col xl:flex-row gap-12 p-8 xl:p-12">
         {/* Left Layout */}
         <div className="bg-blue-400 relative min-h-[40vh] xl:min-h-[50vh] aspect-square flex justify-center items-center rounded-md">
-          <Image src={hangManFigure} fill />
+          <Image src={hangManFigure} alt="Hangman step" fill />
         </div>
 
         {/* Right layout */}
@@ -140,7 +140,7 @@ const Home = () => {
               <div className="flex items-center justify-center flex-col gap-2">
                 <p className="flex items-center gap-2">
                   {questionWord?.word.split("").map((word, index) => (
-                    <span className="font-bold">
+                    <span key={word} className="font-bold">
                       {wordIndexesToShow.includes(index)
                         ? word.toUpperCase()
                         : "__"}
