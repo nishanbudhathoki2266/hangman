@@ -100,9 +100,15 @@ const Home = () => {
         {/* Right layout */}
         {isGameOver ? (
           <div className="flex-1 gap-4 flex justify-center items-center flex-col">
-            <span className="font-extrabold text-6xl text-gray-400">
+            <span className="font-extrabold text-4xl text-gray-400">
               GAME OVER
             </span>
+            <p className="text-lg font-medium tracking-tight">
+              The word was:{" "}
+              <span className="text-xl text-blue-400 uppercase tracking-wide">
+                {questionWord?.word}
+              </span>
+            </p>
             <button
               className="bg-blue-400 hover:scale-105 py-2 px-4 text-lg rounded-md text-white uppercase font-semibold"
               onClick={restart}
