@@ -4,11 +4,11 @@ import hangmanWords from "@/constants/words";
 import alphabets from "@/constants/alphabets";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
-import hangmanSteps from "@/constants/hangman";
+import Image from "next/image";
 
 const Home = () => {
   // Number of attempts allowed
-  const attemptsLimit = 6;
+  const attemptsLimit = 7;
 
   // State to keep track of the word which is given as a question
   const [questionWord, setQuestionWord] = useState("");
@@ -30,6 +30,9 @@ const Home = () => {
 
   // Loosing and winning state
   const [isGameOver, setIsGameOver] = useState(false);
+
+  // Deriving hangManFigure from image and wrong Attempts
+  const hangManFigure = "/steps/step-" + wrongAttempts + ".png";
 
   // Function that handles guesses (when user clicks a word)
   const handleGuess = (e) => {
@@ -88,19 +91,15 @@ const Home = () => {
 
   return (
     <div className="bg-slate-800 min-h-screen flex justify-center items-center">
-      <div className="bg-white container mx-auto rounded-xl flex items-center center flex-wrap flex-col xl:flex-row gap-12 p-4 xl:p-12">
+      <div className="bg-white container mx-auto rounded-xl flex items-center center flex-wrap flex-col xl:flex-row gap-12 p-8 xl:p-12">
         {/* Left Layout */}
-        <div className="bg-blue-400 min-h-[60vh] w-full xl:flex-1 flex justify-center items-center rounded-md">
-          <textarea
-            className="bg-transparent text-white font-bold text-4xl"
-            rows={10}
-            value={hangmanSteps[wrongAttempts]}
-          />
+        <div className="bg-blue-400 relative min-h-[40vh] xl:min-h-[50vh] aspect-square flex justify-center items-center rounded-md">
+          <Image src={hangManFigure} fill />
         </div>
 
         {/* Right layout */}
         {isGameOver ? (
-          <div className="flex-1 gap-4 flex justify-center items-center flex-col overflow-hidden">
+          <div className="flex-1 gap-4 flex justify-center items-center flex-col">
             <span className="font-extrabold text-6xl text-gray-400">
               GAME OVER
             </span>
@@ -114,12 +113,13 @@ const Home = () => {
         ) : isWin ? (
           <div className="flex-1 gap-4 flex justify-center items-center flex-col">
             <Confetti
+              className="container mx-auto"
               numberOfPieces={500}
               opacity={0.6}
               friction={0.99}
               tweenDuration={5000}
             />
-            <span className="font-extrabold text-4xl text-gray-400">
+            <span className="font-extrabold text-lg md:text-4xl text-gray-400">
               Congratulations! You did it 🥳
             </span>
             <button
@@ -157,10 +157,7 @@ const Home = () => {
             )}
 
             {/* Guess indicator */}
-            <p
-              p
-              className="text-sm text-red-400 text-center font-medium tracking-wide"
-            >
+            <p className="text-sm text-red-400 text-center font-medium tracking-wide">
               Incorrect attempt/s: {wrongAttempts}/{attemptsLimit}
               {attemptsLimit - wrongAttempts < 4 && (
                 <span className="block">
@@ -174,6 +171,7 @@ const Home = () => {
             <div className="border border-gray-200 p-2 flex items-center rounded-md gap-2 flex-wrap">
               {alphabets.map((alphabet) => (
                 <button
+                  key={alphabet}
                   className={`min-h-12 min-w-12 flex justify-center items-center text-white hover:scale-105 rounded-md ${
                     clickedButtons.includes(alphabet)
                       ? "bg-gray-300 cursor-not-allowed"
