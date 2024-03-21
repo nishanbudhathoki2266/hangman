@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 
 const Navigationpage = () => {
-  const [showDropdown, setShowDropdown] = useState(null);
+  const [activeDropDownIndex, setActiveDropDownIndex] = useState(null);
+
+  console.log("activeDropDownIndex", activeDropDownIndex);
 
   const links = [
     { name: "Home", href: "#" },
@@ -28,7 +30,7 @@ const Navigationpage = () => {
   ];
 
   const toggleDropdown = (index) => {
-    setShowDropdown(showDropdown === index ? null : index);
+    setActiveDropDownIndex(index);
   };
 
   return (
@@ -56,7 +58,7 @@ const Navigationpage = () => {
                     >
                       {link.name}
                     </a>
-                    {link.dropdown && showDropdown === index && (
+                    {link.dropdown && activeDropDownIndex === index && (
                       <div className="absolute z-10 mt-2 bg-gray-800 rounded-md shadow-lg">
                         {link.dropdown.map((dropdownLink, dropdownIndex) => (
                           <a
